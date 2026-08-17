@@ -8,12 +8,30 @@ const createUser = async (req, res, next) => {
 
 const getAllUsers = async (req, res, ext) => {
   const allusers = await userService.getAllUsers();
-  console.log("sjdbf,jbxjbaskhbx,jdsfkhs dc,vhbdh c", allusers);
   return successResponse(res, "All users fetched successfully", allusers);
 }
+
+const getOneUser = async (req, res, next) => {
+  const user = await userService.getOneUser(Number(req.params.id));
+  return successResponse(res, "User fetched successfully", user);
+}
+
+const updateUser = async (req, res) => {
+  const updatedUser = await userService.updateUser(Number(req.params.id), req.body);
+  return successResponse(res, "User updated successfully", updatedUser);
+}
+
+const deleteUser = async (req, res) => {
+  const deletedUser = await userService.deleteUser(Number(req.params.id));
+  return successResponse(res, "User deleted successfully", deletedUser);
+}
+
 
 
 export default {
   createUser,
-  getAllUsers
+  getAllUsers,
+  getOneUser,
+  updateUser,
+  deleteUser
 };

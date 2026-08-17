@@ -16,6 +16,7 @@ dotenv.config();
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
+import AppError from "../utils/AppError.js";
 
 
 const adapter = new PrismaPg({
@@ -23,9 +24,17 @@ const adapter = new PrismaPg({
 });
 
 
-const prisma = new PrismaClient({
+export const prisma = new PrismaClient({
   adapter
 });
 
-export default prisma;
+export async function connectDB() {
+  try {
+    const connection = await prisma.$connect();
+  } catch(err) {
+    console.log(err);
+    throw new AppError(err.message, 500);
+  }
+}
+
 
